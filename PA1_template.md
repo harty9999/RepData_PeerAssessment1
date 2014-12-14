@@ -26,7 +26,8 @@ The variables included in this dataset are:
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
 
 ### Loading and Preprocessing the Data
-```{r Loading Data}
+
+```r
 data.col.classes <- c("numeric"
                       , "Date"
                       , "numeric"
@@ -45,29 +46,44 @@ steps.per.day <- aggregate(steps ~ date
 ### What is mean total number of steps taken per day?
 
 #### Histogram of the total number of steps taken each day
-```{r Total steps each day}
+
+```r
 hist(steps.per.day$steps
      , main = "Total Number of Steps Taken Each Day"
      , xlab="Total Steps"
      )
 ```
 
+![plot of chunk Total steps each day](figure/Total steps each day-1.png) 
+
 #### Mean and Median total number of steps taken per day
-```{r Mean-Median steps per day}
+
+```r
 mean(steps.per.day$steps
      , na.rm=TRUE
      )
+```
 
+```
+## [1] 10766.19
+```
+
+```r
 median(steps.per.day$steps
        , na.rm=TRUE
        )
+```
+
+```
+## [1] 10765
 ```
 
 ### What is the average daily activity pattern?
 
 #### Time Series Plot of the 5-minute interval and the average number of steps taken, averaged across all days
 
-```{r Time Series}
+
+```r
 interval.steps <- aggregate(steps ~ interval
                             , data
                             , mean
@@ -82,16 +98,28 @@ plot(interval.steps$interval
      )
 ```
 
+![plot of chunk Time Series](figure/Time Series-1.png) 
+
 #### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r Max steps}
+
+```r
 interval.steps[which.max(interval.steps$steps), ]$interval
+```
+
+```
+## [1] 835
 ```
 
 ### Inputing missing values
 
 #### Total number of missing values in the dataset 
-```{r Missing values}
+
+```r
 sum(is.na(data))
+```
+
+```
+## [1] 2304
 ```
 
 #### Strategy for filling in all of the missing values in the dataset
@@ -99,7 +127,8 @@ Replace the missing values with the average number of steps of the corresponding
 
 
 #### New dataset that is equal to the original dataset but with the missing data filled in
-```{r New dataset}
+
+```r
 steps.per.interval <- aggregate(steps ~ interval
                                 , data
                                 , mean
@@ -116,7 +145,13 @@ for (i in 1:nrow(data2)) {
 }
 
 sum(is.na(data2))
+```
 
+```
+## [1] 0
+```
+
+```r
 steps.per.day2 <- aggregate(steps ~ date
                             , data2
                             , sum
@@ -127,23 +162,38 @@ steps.per.day2 <- aggregate(steps ~ date
 ### What is mean total number of steps taken per day?
 
 #### Histogram of the total number of steps taken each day
-```{r New Total steps each day}
+
+```r
 hist(steps.per.day2$steps
      , main = "Total Number of Steps Taken Each Day"
      , xlab="Total Steps"
      )
+```
 
+![plot of chunk New Total steps each day](figure/New Total steps each day-1.png) 
 
-
+```r
 #### New Mean and Median total number of steps taken per day
-```{r New Mean-Median steps per day}
+```
+
+```r
 mean(steps.per.day2$steps
      , na.rm=TRUE
      )
+```
 
+```
+## [1] 10766.19
+```
+
+```r
 median(steps.per.day2$steps
        , na.rm=TRUE
        )
+```
+
+```
+## [1] 10766.19
 ```
 
 #### Do these values differ from the estimates from the first part of the assignment? 
@@ -155,7 +205,8 @@ Not really
 Replacing the NA's has increased the frequencies of the bins near the mean
 
 ### Are there differences in activity patterns between weekdays and weekends?
-```{r Weekday-Weekend}
+
+```r
 library(dplyr)
 
 data2 <- data2 %>%
@@ -187,6 +238,8 @@ xyplot(steps ~ interval | dayType
        , ylab = "Averge Number of Steps Taken"
        )  
 ```
+
+![plot of chunk Weekday-Weekend](figure/Weekday-Weekend-1.png) 
 
 #### Whats different between weekend end weekdays?
 
